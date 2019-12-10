@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Article;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -31,6 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'content:ntext',
             'date',
+            [
+                'format' => 'html',
+                'label' => 'Image',
+                'value' => function(Article $data) {
+        return Html::img($data->getImage(), ['width' => 200]);
+                }
+            ],
             //'image',
             //'viewed',
             //'user_id',

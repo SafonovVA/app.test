@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user".
@@ -16,7 +17,7 @@ use Yii;
  *
  * @property Comment[] $comments
  */
-class User extends \yii\db\ActiveRecord
+class User extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -53,10 +54,10 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getComments()
     {
-        return $this->hasMany(Comment::className(), ['user_id' => 'id']);
+        return $this->hasMany(Comment::class, ['user_id' => 'id']);
     }
 }

@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\data\Pagination;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article".
@@ -21,8 +24,9 @@ use Yii;
  * @property ArticleTag[] $articleTags
  * @property Comment[] $comments
  */
-class Article extends \yii\db\ActiveRecord
+class Article extends ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -85,5 +89,76 @@ class Article extends \yii\db\ActiveRecord
     public function getImage()
     {
         return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+    public function saveCategory($category_id)
+    {
+        $category = Category::findOne($category_id);
+        if ($category != null) {
+            $this->link('category', $category);
+            return true;
+        }
+        return false;
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::class ,['id' => 'tag_id'])
+            ->viaTable('article_tag', ['article_id' => 'id']);
+    }
+
+    public function getSelectedTags()
+    {
+        $selectedIds = $this->getTags()->select('id')->asArray()->all();
+        return ArrayHelper::getColumn($selectedIds, 'id');
+    }
+
+    public function saveTags($tags)
+    {
+        if (is_array($tags)) {
+            $this->clearCurrentTags();
+            foreach ($tags as $tag_id) {
+                $tag = Tag::findOne($tag_id);
+                $this->link('tags', $tag);
+            }
+        }
+    }
+
+    private function clearCurrentTags()
+    {
+        ArticleTag::deleteAll(['article_id' => $this->id]);
+    }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date);
+    }
+
+    public static function getAll(int $pageSize = 5)
+    {
+        $query = Article::find();
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+        $articles = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        $data['articles'] = $articles;
+        $data['pagination'] = $pagination;
+        return  $data;
+    }
+
+    public static function getPopular()
+    {
+        return Article::find()->orderBy('viewed desc')->limit(3)->all();
+    }
+    public static function getRecent()
+    {
+        return Article::find()->orderBy('date asc')->limit(4)->all();
     }
 }

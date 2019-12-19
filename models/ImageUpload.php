@@ -30,7 +30,7 @@ class ImageUpload extends Model
             $this->deleteCurrentImage($currentImage);
             return $this->saveImage();
         }
-
+        return false;
     }
 
     private function getFolder()

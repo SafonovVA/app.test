@@ -2,10 +2,14 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Category;
 use app\models\ImageUpload;
+use app\models\Tag;
 use Yii;
 use app\models\Article;
 use app\models\ArticleSearch;
+use yii\db\StaleObjectException;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,6 +52,47 @@ class ArticleController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionSetCategory($id)
+    {
+        $article = $this->findModel($id);
+        $selectedCategory = isset($article->category->id) ? $article->category->id : $article->getCategory();
+        $categories = ArrayHelper::map(Category::find()->all(), 'id', 'title');
+
+        if (Yii::$app->request->isPost) {
+            $category = Yii::$app->request->post('category');
+            if ($article->saveCategory($category)) {
+                return $this->redirect(['view',
+                    'id' => $article->id,
+                ]);
+            }
+        }
+
+        return $this->render('category', [
+            'article' => $article,
+            'selectedCategory' => $selectedCategory,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function actionSetTags($id)
+    {
+        $article = $this->findModel($id);
+        $selectedTags = $article->getSelectedTags();
+        $tags = ArrayHelper::map(Tag::find()->all(), 'id', 'title');
+
+        if (Yii::$app->request->isPost) {
+            $tags = Yii::$app->request->post('tags');
+            $article->saveTags($tags);
+            return $this->redirect(['view', 'id' => $article->id]);
+        }
+
+        return $this->render('tags', [
+            'selectedTags' => $selectedTags,
+            'tags' => $tags,
+        ]);
+    }
+
 
     /**
      * Lists all Article models.
@@ -116,11 +161,11 @@ class ArticleController extends Controller
     }
 
     /**
-     * Deletes an existing Article model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws StaleObjectException
+     * @throws \Throwable
      */
     public function actionDelete($id)
     {
@@ -130,8 +175,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * Finds the Article model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Article the loaded model
      * @throws NotFoundHttpException if the model cannot be found

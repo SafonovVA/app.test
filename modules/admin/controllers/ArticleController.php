@@ -56,7 +56,7 @@ class ArticleController extends Controller
     public function actionSetCategory($id)
     {
         $article = $this->findModel($id);
-        $selectedCategory = isset($article->category->id) ? $article->category->id : $article->getCategory();
+        $selectedCategory = $article->category->id;
         $categories = ArrayHelper::map(Category::find()->all(), 'id', 'title');
 
         if (Yii::$app->request->isPost) {

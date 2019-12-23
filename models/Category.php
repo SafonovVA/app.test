@@ -56,11 +56,11 @@ class Category extends \yii\db\ActiveRecord
         return Category::find()->all();
     }
 
-    public static function getArticlesByCategory($id)
+    public static function getArticlesByCategory($id, $pageSize = 6)
     {
         $query = Article::find()->where(['category_id' => $id]);
         $count = $query->count();
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 6]);
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
         $articles = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();

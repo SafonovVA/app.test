@@ -7,6 +7,7 @@ use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use app\assets\PublicAsset;
@@ -52,8 +53,17 @@ PublicAsset::register($this);
                 </ul>
                 <div class="i_con">
                     <ul class="nav navbar-nav text-uppercase">
-                        <li><a href="/site/login">Login</a></li>
-                        <li><a href="/site/signup">Register</a></li>
+                        <?php if (Yii::$app->user->isGuest): ?>
+                            <li><a href="<?= Url::toRoute(['auth/login']); ?>">Login</a></li>
+                            <li><a href="<?= Url::toRoute(['auth/signup']); ?>">Register</a></li>
+                        <?php else: ?>
+                            <?= Html::beginForm(['auth/logout'], 'post')
+                            . Html::submitButton(
+                                    'Logout (' . Yii::$app->user->identity->name . ')',
+                                    ['class' => 'btn btn-link logout' , 'style' => 'padding-top:10px;']
+                            )
+                            . Html::endForm(); ?>
+                        <?php endif; ?>
                     </ul>
                 </div>
 
@@ -412,7 +422,7 @@ PublicAsset::register($this);
         <div class="row">
             <div class="col-md-4">
                 <aside class="footer-widget">
-                    <div class="about-img"><img src="public/images/logo2.png" alt=""></div>
+                    <div class="about-img"><img src="/public/images/logo2.png" alt=""></div>
                     <div class="about-content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
                         eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed voluptua. At vero eos et
                         accusam et justo duo dlores et ea rebum magna text ar koto din.
@@ -450,7 +460,7 @@ PublicAsset::register($this);
                                             magna aliquyam eratma</p>
                                     </div>
                                     <div class="author-id">
-                                        <img src="public/images/author.png" alt="">
+                                        <img src="/public/images/author.png" alt="">
 
                                         <div class="author-text">
                                             <h4>Sophia</h4>
@@ -469,7 +479,7 @@ PublicAsset::register($this);
                                             magna aliquyam eratma</p>
                                     </div>
                                     <div class="author-id">
-                                        <img src="public/images/author.png" alt="">
+                                        <img src="/public/images/author.png" alt="">
 
                                         <div class="author-text">
                                             <h4>Sophia</h4>
@@ -488,7 +498,7 @@ PublicAsset::register($this);
                                             magna aliquyam eratma</p>
                                     </div>
                                     <div class="author-id">
-                                        <img src="public/images/author.png" alt="">
+                                        <img src="/public/images/author.png" alt="">
 
                                         <div class="author-text">
                                             <h4>Sophia</h4>
@@ -510,7 +520,7 @@ PublicAsset::register($this);
 
                     <div class="custom-post">
                         <div>
-                            <a href="#"><img src="public/images/footer-img.png" alt=""></a>
+                            <a href="#"><img src="/public/images/footer-img.png" alt=""></a>
                         </div>
                         <div>
                             <a href="#" class="text-uppercase">Home is peaceful Place</a>

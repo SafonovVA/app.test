@@ -3,16 +3,14 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="leave-comment mr0">
     <div class="row">
-        <div class="col-md-7 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-2">
             <div class="site-login">
                 <h1><?= Html::encode($this->title) ?></h1>
 

@@ -54,19 +54,18 @@ PublicAsset::register($this);
                 <div class="i_con">
                     <ul class="nav navbar-nav text-uppercase">
                         <?php if (Yii::$app->user->isGuest): ?>
-                            <li><a href="<?= \yii\helpers\Url::toRoute(['auth/login']); ?>">Login</a></li>
-                            <li><a href="<?= \yii\helpers\Url::toRoute(['auth/singup']); ?>">Register</a></li>
+                            <li><a href="<?= Url::toRoute(['auth/login']); ?>">Login</a></li>
+                            <li><a href="<?= Url::toRoute(['auth/signup']); ?>">Register</a></li>
                         <?php else: ?>
-                            <?= Html::beginForm(['/auth/logout'], 'post')
+                            <li><?= Html::beginForm(['/auth/logout'], 'post')
                                 . Html::submitButton(
-                                    'Logout (' . Yii::$app->user->identity->name . ')',
+                                    'LOGOUT (' . Yii::$app->user->identity->name . ')',
                                     ['class' => 'btn btn-link logout', 'style' => 'padding-top:10px;']
                                 )
-                                . Html::endForm(); ?>
+                                . Html::endForm(); ?></li>
                         <?php endif; ?>
                     </ul>
                 </div>
-
             </div>
             <!-- /.navbar-collapse -->
         </div>

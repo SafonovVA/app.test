@@ -1,12 +1,9 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-
 $this->title = 'Register';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -48,10 +45,4 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-<<<<<<< HEAD
 </div>
-=======
-</div>
-
-
->>>>>>> ea2e973c21e1af4103ccf15efa69935e535bf480

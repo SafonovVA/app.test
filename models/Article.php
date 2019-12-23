@@ -47,7 +47,7 @@ class Article extends ActiveRecord
             [['date'], 'default', 'value' => date('Y-m-d')],
             [['title'], 'string', 'max' => 255],
             [['title'], 'default', 'value' => 'No title'],
-            [['category_id'], 'default', 'value' => '3'],
+            [['category_id'], 'default', 'value' => '1'],
         ];
     }
 

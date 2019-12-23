@@ -7,12 +7,12 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'Register';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="leave-comment mr0">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-7 col-md-offset-2">
             <div class="site-login">
                 <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,11 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
 
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'email')->textInput() ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
-
-
 
                 <div class="form-group">
                     <div class="col-lg-offset-1 col-lg-11">
@@ -50,4 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
+=======
+</div>
+
+
+>>>>>>> ea2e973c21e1af4103ccf15efa69935e535bf480

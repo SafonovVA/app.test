@@ -53,6 +53,9 @@ PublicAsset::register($this);
                 </ul>
                 <div class="i_con">
                     <ul class="nav navbar-nav text-uppercase">
+                        <?php if (Yii::$app->user->can('admin')): ?>
+                            <li><a href="<?= Url::toRoute(['/admin']); ?>">Admin</a></li>
+                        <?php endif; ?>
                         <?php if (Yii::$app->user->isGuest): ?>
                             <li><a href="<?= Url::toRoute(['auth/login']); ?>">Login</a></li>
                             <li><a href="<?= Url::toRoute(['auth/signup']); ?>">Register</a></li>

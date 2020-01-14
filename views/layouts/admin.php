@@ -1,5 +1,8 @@
 <?php
 
+die(var_dump(Yii::getAlias('@yii')));
+
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
